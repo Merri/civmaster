@@ -32,3 +32,9 @@ Since this project is still in it's early phase a lot of this is still uncertain
 5. Add support for Civilization IV
 6. Add support for older Civ games?
 7. Online repository / direct Steam Workshop support / CivFanatics integration?
+
+## Technical
+
+- Based on [Electron API demos](https://github.com/electron/electron-api-demos)
+- So that means Node, JavaScript, HTML, CSS and all that goodness
+- Possible to release the app for Windows, OSX and Linux
