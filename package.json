@@ -24,10 +24,16 @@
   },
   "repository": "https://github.com/merri/civmaster",
   "keywords": [
+    "Civ",
     "Civilization",
-    "Beyond Earth",
+    "Civ4",
+    "Civilization IV",
+    "Civ5",
     "Civilization V",
-    "Civilization VI"
+    "Civ6",
+    "Civilization VI",
+    "CivBE",
+    "Beyond Earth"
   ],
   "author": "Vesa Piittinen",
   "license": "MIT",
@@ -53,6 +59,7 @@
     "electron-log": "^2.2.14",
     "electron-settings": "^3.0.7",
     "electron-shortcut-normalizer": "^1.0.0",
+    "find-steam-app": "^1.0.1",
     "glob": "^7.1.0",
     "highlight.js": "^9.3.0",
     "update-electron-app": "^1.1.1"
