@@ -35,6 +35,7 @@ Since this project is still in it's early phase a lot of this is still uncertain
 
 ## Technical
 
-- Based on [Electron API demos](https://github.com/electron/electron-api-demos)
+- Based on [Electron API demos](https://github.com/electron/electron-api-demos) and
+  [@pika/web electron-three demo](https://github.com/br3tt/electron-three)
 - So that means Node, JavaScript, HTML, CSS and all that goodness
 - Possible to release the app for Windows, OSX and Linux
