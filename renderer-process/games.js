@@ -95,6 +95,10 @@ function listOfGames(games) {
         nom.el('button', () => {
             const isAnyGameLoading = games.some(game => game.isLoading)
             return { children: 'Refresh', disabled: isAnyGameLoading, onclick: locateGames }
+        }),
+        nom.el('br'),
+        nom.el('button', () => {
+            return { children: 'Index Civ5', disabled: isIndexingCiv5, onclick: indexCiv5 }
         })
     ])
 }
@@ -114,6 +118,27 @@ ipcRenderer.on('installation-located', (event, installation) => {
         Object.assign(game, installation)
         game.isLoading = false
     }
+})
+
+let isIndexingCiv5 = false
+const sources = {}
+const index = {}
+
+function indexCiv5() {
+    if (isIndexingCiv5) {
+        return
+    }
+    ipcRenderer.send('index-civ5', games.find(game => game.id === 'civ5'))
+    isIndexingCiv5 = true
+}
+
+ipcRenderer.on('civ5-sources', (event, result) => {
+    sources.civ5 = result
+})
+
+ipcRenderer.on('civ5-indexed', (event, result) => {
+    index.civ5 = result
+    isIndexingCiv5 = false
 })
 
 root.appendChild(nom.mount(listOfGames(games)))
