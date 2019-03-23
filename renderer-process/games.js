@@ -1,14 +1,71 @@
+const { ipcRenderer } = require('electron')
+
+const games = [
+    {
+        id: 'civ4',
+        isLoading: false,
+        manifest: null,
+        name: 'Sid Meier\'s Civilization IV',
+        pathname: '',
+        steamAppId: 3900
+    },
+    {
+        id: 'civ4war',
+        isLoading: false,
+        manifest: null,
+        name: 'Sid Meier\'s Civilization IV: Warlords',
+        pathname: '',
+        steamAppId: 3990
+    },
+    {
+        id: 'civ4bts',
+        isLoading: false,
+        manifest: null,
+        name: 'Sid Meier\'s Civilization IV: Beyond the Sword',
+        pathname: '',
+        steamAppId: 8800
+    },
+    {
+        id: 'civ5',
+        isLoading: false,
+        manifest: null,
+        name: 'Sid Meier\'s Civilization V',
+        pathname: '',
+        steamAppId: 8930
+    },
+    {
+        id: 'civ6',
+        isLoading: false,
+        manifest: null,
+        name: 'Sid Meier\'s Civilization VI',
+        pathname: '',
+        steamAppId: 289070
+    },
+    {
+        id: 'civbe',
+        isLoading: false,
+        manifest: null,
+        name: 'Sid Meier\'s Civilization: Beyond Earth',
+        pathname: '',
+        steamAppId: 65980
+    }
+]
+
 const nom = require('./lib/nom')
-const { games, getGameManifest, getGameName, getGamePath, isGameLoading, locateGames } = require('./lib/games')
+
 const root = document.getElementById('games')
-const keys = ['civ4,civ4war,civ4bts', 'civ5', 'civbe', 'civ6']
+const ids = ['civ6', 'civ5', 'civ4,civ4war,civ4bts', 'civbe']
 
 function listOfGames(games) {
     const state = {
-        items: keys.map(key => ({
-            key,
-            name: games[key.split(',').shift()].name
-        }))
+        items: ids.map(id => {
+            const firstId = id.split(',').shift()
+
+            return {
+                id,
+                name: games.find(game => game.id === firstId).name
+            }
+        })
     }
 
     function nomGameItem(item) {
@@ -17,20 +74,21 @@ function listOfGames(games) {
         return item.nomEl = nom.el('li.list-of-games__item', [
             nom.el('h3.game-header', item.name),
             nom.el(
-                'div.game-content',
-                item.key.split(',').map(key => {
-                    const children = [
-                        nom.el('strong', getGameName(key)),
-                        nom.el('br'),
-                        nom.el('code', () => ({ children: getGamePath(key) || 'path unknown' })),
-                        nom.el('br'),
-                        nom.el('code', () => ({ children: getGameManifest(key) ? getGameManifest(key).UserConfig.language : 'not installed in Steam' }))
+                'dl.game-content',
+                item.id.split(',').map(id => {
+                    const game = games.find(game => game.id === id)
+                    return [
+                        nom.el('dt.game-content__name-header', 'Installation name:'),
+                        nom.el('dd.game-content__name', () => ({
+                            children: game.name + (game.isLoading ? ' (loading...)' : '')
+                        })),
+                        nom.el('dt.game-content__path-header', 'Path:'),
+                        nom.el('dd.game-content__path', () => ({ children: game.pathname || '-' })),
+                        nom.el('dt.game-content__language-header', 'Steam language:'),
+                        nom.el('dd.game-content__language', () => ({
+                            children: game.manifest ? game.manifest.UserConfig.language : '-'
+                        }))
                     ]
-
-                    return nom.el('p', () => ({
-                        className: 'game-content__item ' + (isGameLoading(key) ? 'game-content__item--is-loading' : ''),
-                        children
-                    }))
                 })
             )
         ])
@@ -40,12 +98,27 @@ function listOfGames(games) {
         nom.el('h2', 'Detected installations'),
         nom.el('ul.list-of-games', () => state.items.map(nomGameItem)),
         nom.el('button', () => {
-            const isAnyGameLoading = Object.keys(games).some(key => isGameLoading(key))
-            return { children: 'Refresh', disabled: isAnyGameLoading, onclick: () => locateGames() }
+            const isAnyGameLoading = games.some(game => game.isLoading)
+            return { children: 'Refresh', disabled: isAnyGameLoading, onclick: locateGames }
         })
     ])
 }
 
+function locateGames() {
+    for (const game of games) {
+        ipcRenderer.send('locate-installation', game)
+        game.isLoading = true
+    }
+}
+
 locateGames()
+
+ipcRenderer.on('installation-located', (event, installation) => {
+    const game = games.find(game => game.steamAppId === installation.steamAppId)
+    if (game) {
+        Object.assign(game, installation)
+        game.isLoading = false
+    }
+})
 
 root.appendChild(nom.mount(listOfGames(games)))

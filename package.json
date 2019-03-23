@@ -3,9 +3,10 @@
   "productName": "Civilization Master",
   "version": "0.0.1",
   "description": "Civilization Master",
-  "main": "main.js",
+  "main": "main",
   "bin": "cli.js",
   "scripts": {
+    "prepare": "pika-web",
     "start": "electron .",
     "dev": "electron . --debug",
     "test": "mocha && standard",
@@ -38,7 +39,11 @@
   "author": "Vesa Piittinen",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "@babel/register": "^7.4.0",
     "@octokit/rest": "^16.3.2",
+    "@pika/web": "^0.4.0",
     "chai": "^3.4.1",
     "chai-as-promised": "^6.0.0",
     "check-for-leaks": "^1.2.0",

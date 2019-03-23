@@ -34,7 +34,6 @@
 html {
 	height: 100%;
 	font-family: 'TeXGyreAdventor', 'BlinkMacSystemFont', 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
-	font-size: 14px;
 	line-height: 1.5;
 	overflow: hidden; /* Prevents rubber-band scrolling of the whole "page" */
 	color: var(--color);
@@ -144,6 +143,12 @@ tr:nth-child(even) td:nth-child(odd) {
 tr:nth-child(even) td:nth-child(even) {
 	background: #1F232B;
 }
+
+.game-content { margin: 2em 0; padding: 0; }
+.game-content:before,.game-content:after { clear: both; content: ' '; display: table; }
+.game-content > dt { margin: 0; padding: 0; float: left; width: 12em; }
+.game-content > dd { margin: 0 0 0 12em; padding: 0; }
+.game-content > .game-content__language { margin-bottom: 1em; }
 
 svg {
 	fill: currentColor;
