@@ -54,29 +54,24 @@ const games = [
 const nom = require('./lib/nom')
 
 const root = document.getElementById('games')
-const ids = ['civ6', 'civ5', 'civ4,civ4war,civ4bts', 'civbe']
+const order = ['civ6', 'civ5', 'civ4,civ4war,civ4bts', 'civbe']
 
 function listOfGames(games) {
     const state = {
-        items: ids.map(id => {
-            const firstId = id.split(',').shift()
-
-            return {
-                id,
-                name: games.find(game => game.id === firstId).name
-            }
-        })
+        items: order.map(id => ({
+            id,
+            games: id.split(',').map(id => games.find(game => game.id === id))
+        }))
     }
 
     function nomGameItem(item) {
         if (item.nomEl) return item.nomEl
 
         return item.nomEl = nom.el('li.list-of-games__item', [
-            nom.el('h3.game-header', item.name),
+            nom.el('h3.game-header', item.games[0].name),
             nom.el(
                 'dl.game-content',
-                item.id.split(',').map(id => {
-                    const game = games.find(game => game.id === id)
+                item.games.map(game => {
                     return [
                         nom.el('dt.game-content__name-header', 'Installation name:'),
                         nom.el('dd.game-content__name', () => ({
