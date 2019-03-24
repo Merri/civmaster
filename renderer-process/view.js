@@ -1,5 +1,5 @@
 const { ipcRenderer } = require('electron')
-import { fragment, h, mount } from '../lib/nom.js'
+import { fragment, h, mount } from '/lib/nom.js'
 
 import ListOfGames, { locateGames } from './views/ListOfGames.js'
 import games from './state/games.js'

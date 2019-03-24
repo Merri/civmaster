@@ -1,5 +1,5 @@
 const { ipcRenderer } = require('electron')
-import { fragment, h } from '../../lib/nom.js'
+import { fragment, h } from '/lib/nom.js'
 
 const order = ['civ6', 'civ5', 'civ4,civ4war,civ4bts', 'civbe']
 
