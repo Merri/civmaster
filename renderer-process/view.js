@@ -1,7 +1,7 @@
 const { ipcRenderer } = require('electron')
 const nom = require('./lib/nom')
 
-import ListOfGames, { locateGames } from './components/listOfGames.js'
+import ListOfGames, { locateGames } from './views/ListOfGames.js'
 import games from './games.js'
 
 ipcRenderer.on('installation-located', (event, installation) => {
