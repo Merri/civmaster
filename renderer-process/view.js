@@ -1,7 +1,7 @@
 const { ipcRenderer } = require('electron')
 const nom = require('./lib/nom')
 
-import listOfGames, { locateGames } from './components/listOfGames.js'
+import ListOfGames, { locateGames } from './components/listOfGames.js'
 import games from './games.js'
 
 ipcRenderer.on('installation-located', (event, installation) => {
@@ -28,25 +28,25 @@ function other(games, setView) {
         nom.el('h2', 'Header'),
         nom.el('button', {
             children: 'Go back',
-            onclick: () => { setView('listGames') }
+            onclick: () => { setView('listOfGames') }
         })
     ])
 }
 
 const views = {
-    listGames: () => nom.mount(listOfGames(games, setView)),
+    listOfGames: () => nom.mount(ListOfGames(games, setView)),
     other: () => nom.mount(other(games, setView))
 }
 
 let currentView
 const view = document.getElementById('view')
 
-function setView(view) {
-    const nextView = views[view]
-    if (!nextView) throw new Error('Missing view: `' + view + '`')
+function setView(viewId) {
+    const nextView = views[viewId]
+    if (!nextView) throw new Error('Missing viewId: `' + viewId + '`')
     if (currentView) currentView.unmount()
     view.appendChild(currentView = nextView())
 }
 
-setView('listGames')
+setView('listOfGames')
 locateGames(games)
