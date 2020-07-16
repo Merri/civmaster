@@ -67,7 +67,7 @@
     "find-steam-app": "^1.0.1",
     "glob": "^7.1.0",
     "highlight.js": "^9.3.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.19",
     "recursive-readdir": "^2.2.2",
     "update-electron-app": "^1.1.1",
     "xml-js": "^1.6.11"
